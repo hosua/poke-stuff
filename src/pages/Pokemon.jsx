@@ -160,7 +160,7 @@ export const PokemonList = () => {
           </Card>
         </Col>
       </Row>
-      <Row>
+      <Row className="m-auto">
         {pokemonList.results
           .slice(GEN_INTERVALS[generation].start, GEN_INTERVALS[generation].end)
           .map((pkmn) => {
