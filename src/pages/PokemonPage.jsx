@@ -4,9 +4,10 @@ import Select from "react-select";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { PuffLoader } from "react-spinners";
 import { Pokemon } from "@components/Pokemon";
-import { getPokemonList, PokeAPI } from "@utils/utils";
+import { getPokemonList, getAbilityList } from "@utils/utils";
 
 const GEN_INTERVALS = {
+  test: { start: 0, end: 3 },
   1: { start: 0, end: 151 },
   2: { start: 151, end: 251 },
   3: { start: 251, end: 386 },
@@ -19,6 +20,7 @@ const GEN_INTERVALS = {
 };
 
 const GEN_OPTIONS = [
+  { value: "test", label: "test" },
   { value: 1, label: "I (R/B/Y)" },
   { value: 2, label: "II (G/S/C)" },
   { value: 3, label: "III (R/S/E)" },
@@ -32,6 +34,7 @@ const GEN_OPTIONS = [
 
 export const PokemonPage = () => {
   const [pokemonList, setPokemonList] = useState();
+  const [abilityList, setAbilityList] = useState();
   const [loading, setLoading] = useState(true);
   const [generation, setGeneration] = useState(1);
   const selectedOption = GEN_OPTIONS.find(
@@ -39,9 +42,12 @@ export const PokemonPage = () => {
   );
 
   useEffect(() => {
-    getPokemonList().then((data) => {
-      setPokemonList(data);
-      //console.log(data);
+    getAbilityList().then(({ results }) => {
+      setAbilityList(results);
+      console.log(results);
+    });
+    getPokemonList().then(({ results }) => {
+      setPokemonList(results);
       setLoading(false);
     });
   }, []);
@@ -70,7 +76,7 @@ export const PokemonPage = () => {
         </Col>
       </Row>
       <Row className="m-auto">
-        {pokemonList.results
+        {pokemonList
           .slice(GEN_INTERVALS[generation].start, GEN_INTERVALS[generation].end)
           .map((pkmn) => {
             pkmn.id = pkmn.url.match(/\/(\d+)\//)[1];
