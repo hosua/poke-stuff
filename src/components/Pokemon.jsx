@@ -3,12 +3,7 @@ import { Container, Row, Col, Card, ListGroup, Table } from "react-bootstrap";
 import Select from "react-select";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { PuffLoader } from "react-spinners";
-import {
-  PokeAPI,
-  upperCaseFirstChar,
-  getAbilityMap,
-  getPokemonMap,
-} from "@utils/utils";
+import { upperCaseFirstChar, getAbilityMap, getPokemonMap } from "@utils/utils";
 
 const abilityMap = getAbilityMap();
 const pokemonMap = getPokemonMap();
@@ -32,15 +27,15 @@ export const Pokemon = ({ name }) => {
   return (
     <>
       <Card style={{ width: "20rem", height: "52rem" }}>
-        <Card.Title>{`${pkmn["id"]}. ${upperCaseFirstChar(name)}`}</Card.Title>
-        <Card.Img src={pkmn["sprites"]["front_default"]} />
+        <Card.Title>{`${pkmn.id}. ${upperCaseFirstChar(name)}`}</Card.Title>
+        <Card.Img src={pkmn.sprites.front_default} />
         <div className="d-flex">
           <div style={{ minWidth: "45%" }}>
             <ListGroup>
               <ListGroup.Item variant="secondary">Type</ListGroup.Item>
-              {pkmn["types"].map((item) => (
+              {pkmn["types"].map(({ type }) => (
                 <ListGroup.Item>
-                  {`${upperCaseFirstChar(item["type"]["name"])}`}
+                  {`${upperCaseFirstChar(type.name)}`}
                 </ListGroup.Item>
               ))}
             </ListGroup>
@@ -49,7 +44,7 @@ export const Pokemon = ({ name }) => {
           <div style={{ float: "right", textAlign: "right" }}>
             <ListGroup>
               <ListGroup.Item variant="secondary">Ability</ListGroup.Item>
-              {pkmn["abilities"].map((ability) => {
+              {pkmn.abilities.map((ability) => {
                 const tooltipId = `tooltip-${name}-${ability}`;
                 return (
                   <>

@@ -7,7 +7,6 @@ import { Pokemon } from "@components/Pokemon";
 import { getPokemonList } from "@utils/utils";
 
 const GEN_INTERVALS = {
-  all: { start: 0, end: 1025 },
   1: { start: 0, end: 151 },
   2: { start: 151, end: 251 },
   3: { start: 251, end: 386 },
@@ -17,10 +16,10 @@ const GEN_INTERVALS = {
   7: { start: 721, end: 809 },
   8: { start: 809, end: 905 },
   9: { start: 905, end: 1025 },
+  all: { start: 0, end: 1025 },
 };
 
 const GEN_OPTIONS = [
-  { value: "all", label: "All" },
   { value: 1, label: "I (Kanto)" },
   { value: 2, label: "II (Johto)" },
   { value: 3, label: "III (Hoenn)" },
@@ -30,6 +29,7 @@ const GEN_OPTIONS = [
   { value: 7, label: "VII (Alola)" },
   { value: 8, label: "VIII (Galar)" },
   { value: 9, label: "IX (Paldea)" },
+  // { value: "all", label: "All" },
 ];
 
 export const PokemonPage = () => {
