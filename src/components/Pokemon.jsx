@@ -6,60 +6,30 @@ import { PuffLoader } from "react-spinners";
 import {
   PokeAPI,
   upperCaseFirstChar,
-  getAbilityByName,
   getAbilityMap,
+  getPokemonMap,
 } from "@utils/utils";
 
 const abilityMap = getAbilityMap();
+const pokemonMap = getPokemonMap();
 
 import Tooltip from "@components/Tooltip";
 
-export const Pokemon = ({ name, abilities }) => {
-  const [data, setData] = useState();
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchPokemon = async () => {
-      try {
-        const res = await PokeAPI.getPokemonByName(name);
-        setData(res);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPokemon();
-  }, [name]);
-
-  if (error) {
-    console.error(error);
-    return <></>;
-  }
-
-  if (loading) {
-    return (
-      <>
-        <PuffLoader />
-      </>
-    );
-  }
+export const Pokemon = ({ name }) => {
+  const [pkmn, setPkmn] = useState(pokemonMap[name]);
 
   return (
     <>
       <Card style={{ width: "20rem", height: "52rem" }}>
-        <Card.Title>
-          {`${data.id}. ${upperCaseFirstChar(data.name)}`}
-        </Card.Title>
-        <Card.Img src={data.sprites.front_default} />
+        <Card.Title>{`${pkmn["id"]}. ${upperCaseFirstChar(name)}`}</Card.Title>
+        <Card.Img src={pkmn["sprites"]["front_default"]} />
         <div className="d-flex">
           <div style={{ minWidth: "45%" }}>
             <ListGroup>
               <ListGroup.Item variant="secondary">Type</ListGroup.Item>
-              {data.types.map((item) => (
+              {pkmn["types"].map((item) => (
                 <ListGroup.Item>
-                  {`${upperCaseFirstChar(item.type.name)}`}
+                  {`${upperCaseFirstChar(item["type"]["name"])}`}
                 </ListGroup.Item>
               ))}
             </ListGroup>
@@ -68,21 +38,19 @@ export const Pokemon = ({ name, abilities }) => {
           <div style={{ float: "right", textAlign: "right" }}>
             <ListGroup>
               <ListGroup.Item variant="secondary">Ability</ListGroup.Item>
-              {data.abilities.map((item) => {
-                const { ability } = item;
-                const { name } = ability;
-                const tooltipId = `tooltip-${ability.name}`;
+              {pkmn["abilities"].map((ability) => {
+                const tooltipId = `tooltip-${ability}`;
                 return (
                   <>
-                    <div data-tooltip-id={tooltipId}>
+                    <div pkmn-tooltip-id={tooltipId}>
                       <ListGroup.Item>
-                        {`${upperCaseFirstChar(name)}`}
+                        {`${upperCaseFirstChar(ability)}`}
                       </ListGroup.Item>
                     </div>
                     <Tooltip
                       id={tooltipId}
                       place="bottom"
-                      content={abilityMap[name]}
+                      content={abilityMap[ability]}
                       style={{ zIndex: 69 }}
                     />
                   </>
@@ -100,7 +68,7 @@ export const Pokemon = ({ name, abilities }) => {
               </tr>
             </thead>
             <tbody>
-              {data.stats.map((stat, index) => (
+              {pkmn.stats.map((stat, index) => (
                 <tr key={index}>
                   <td>{stat.stat.name.toUpperCase()}</td>
                   <td style={{ textAlign: "right" }}>{stat.base_stat}</td>

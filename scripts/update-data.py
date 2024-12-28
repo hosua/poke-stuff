@@ -1,6 +1,7 @@
 #!/bin/python3
 
 import os
+import shutil
 import json
 import requests
 
@@ -17,14 +18,28 @@ def get_pokemon_list ():
         result.append(pkmn["name"])
     return result
 
-def get_all_pokemon_data (pkmn_list):
+def get_all_pokemon_data ():
     result = dict()
-    for pkmn in pkmn_list:
-        # print(f"doing {pkmn}")
-        url = f"https://pokeapi.co/api/v2/pokemon/{pkmn}"
+    for i in range(1, 1026):
+        url = f"https://pokeapi.co/api/v2/pokemon/{i}"
         r = requests.get(url)
         data = r.json()
-        result[pkmn] = data
+
+        print(f"getting data for pokemon {i} ({data["name"]})")
+         
+        result[data["name"]] = {
+            "id": data["id"],
+            "name": data["name"],
+            "stats": data["stats"],
+            "types": data["types"],
+            "sprites": data["sprites"],
+            "abilities": data["abilities"],
+        }
+        # flatten abilities
+        new_abilities = []
+        for item in result[data["name"]]["abilities"]:
+            new_abilities.append(item["ability"]["name"])
+        result[data["name"]]["abilities"] = new_abilities
     return result
 
 def get_all_ability_data():
@@ -43,13 +58,17 @@ def get_all_ability_data():
 
 if __name__ == "__main__":
     try:
-        os.rmdir(DATA_DIR)
+        shutil.rmtree(DATA_DIR)
     except: 
         pass
     os.makedirs(DATA_DIR)
-        
+
     ability_map = get_all_ability_data()
     with open(f"{DATA_DIR}/{ABILITY_FILE}", "w") as file:
         json.dump(ability_map, file, indent=2)
+    
+    pokemon_map = get_all_pokemon_data()
+    with open(f"{DATA_DIR}/{POKEMON_FILE}", "w") as file:
+        json.dump(pokemon_map, file, indent=2)
 
 
