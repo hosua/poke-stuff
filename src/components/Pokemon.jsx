@@ -16,7 +16,18 @@ const pokemonMap = getPokemonMap();
 import Tooltip from "@components/Tooltip";
 
 export const Pokemon = ({ name }) => {
-  const [pkmn, setPkmn] = useState(pokemonMap[name]);
+  const [pkmn, setPkmn] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPkmn = async () => {
+      setPkmn(pokemonMap[name]);
+      setLoading(false);
+    };
+    fetchPkmn();
+  }, []);
+
+  if (loading) return <PuffLoader />;
 
   return (
     <>
