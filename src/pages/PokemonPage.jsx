@@ -4,7 +4,7 @@ import Select from "react-select";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { PuffLoader } from "react-spinners";
 import { Pokemon } from "@components/Pokemon";
-import { getPokemonList, getAbilityList } from "@utils/utils";
+import { getPokemonList } from "@utils/utils";
 
 const GEN_INTERVALS = {
   test: { start: 0, end: 3 },
@@ -34,7 +34,6 @@ const GEN_OPTIONS = [
 
 export const PokemonPage = () => {
   const [pokemonList, setPokemonList] = useState();
-  const [abilityList, setAbilityList] = useState();
   const [loading, setLoading] = useState(true);
   const [generation, setGeneration] = useState(1);
   const selectedOption = GEN_OPTIONS.find(
@@ -42,10 +41,6 @@ export const PokemonPage = () => {
   );
 
   useEffect(() => {
-    getAbilityList().then(({ results }) => {
-      setAbilityList(results);
-      console.log(results);
-    });
     getPokemonList().then(({ results }) => {
       setPokemonList(results);
       setLoading(false);
