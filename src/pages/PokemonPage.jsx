@@ -7,7 +7,7 @@ import { Pokemon } from "@components/Pokemon";
 import { getPokemonList } from "@utils/utils";
 
 const GEN_INTERVALS = {
-  test: { start: 0, end: 3 },
+  all: { start: 0, end: 1025 },
   1: { start: 0, end: 151 },
   2: { start: 151, end: 251 },
   3: { start: 251, end: 386 },
@@ -20,16 +20,16 @@ const GEN_INTERVALS = {
 };
 
 const GEN_OPTIONS = [
-  { value: "test", label: "test" },
-  { value: 1, label: "I (R/B/Y)" },
-  { value: 2, label: "II (G/S/C)" },
-  { value: 3, label: "III (R/S/E)" },
-  { value: 4, label: "IV (D/P/Pt)" },
-  { value: 5, label: "V (B/W)" },
-  { value: 6, label: "VI (X/Y)" },
-  { value: 7, label: "VII (S/M)" },
-  { value: 8, label: "VIII (Sw/Sh)" },
-  { value: 9, label: "IX (S/V)" },
+  { value: "all", label: "All" },
+  { value: 1, label: "I (Kanto)" },
+  { value: 2, label: "II (Johto)" },
+  { value: 3, label: "III (Hoenn)" },
+  { value: 4, label: "IV (Sinnoh)" },
+  { value: 5, label: "V (Unova)" },
+  { value: 6, label: "VI (Kalos)" },
+  { value: 7, label: "VII (Alola)" },
+  { value: 8, label: "VIII (Galar)" },
+  { value: 9, label: "IX (Paldea)" },
 ];
 
 export const PokemonPage = () => {

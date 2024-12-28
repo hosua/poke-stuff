@@ -39,10 +39,10 @@ export const Pokemon = ({ name }) => {
             <ListGroup>
               <ListGroup.Item variant="secondary">Ability</ListGroup.Item>
               {pkmn["abilities"].map((ability) => {
-                const tooltipId = `tooltip-${ability}`;
+                const tooltipId = `tooltip-${name}-${ability}`;
                 return (
                   <>
-                    <div pkmn-tooltip-id={tooltipId}>
+                    <div data-tooltip-id={tooltipId}>
                       <ListGroup.Item>
                         {`${upperCaseFirstChar(ability)}`}
                       </ListGroup.Item>
@@ -51,7 +51,6 @@ export const Pokemon = ({ name }) => {
                       id={tooltipId}
                       place="bottom"
                       content={abilityMap[ability]}
-                      style={{ zIndex: 69 }}
                     />
                   </>
                 );
